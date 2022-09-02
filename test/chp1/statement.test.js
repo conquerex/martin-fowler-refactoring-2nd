@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {statement} from '../../src/chp1/statement.js'
+import {myStatement} from '../../src/chp1/originStatement.js'
 import {htmlStatement} from "../../src/chp1/statement";
 
 describe('statement', () => {
@@ -39,6 +40,7 @@ describe('statement', () => {
         "Amount owed is $1,730.00\n" +
         "You earned 47 credits\n";
 
+        console.log(myStatement(invoicesJson[0], playsJson))
         expect(statement(invoicesJson[0], playsJson)).to.equal(expected);
     });
 
