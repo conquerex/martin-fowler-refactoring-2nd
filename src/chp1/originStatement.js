@@ -32,22 +32,23 @@ function myStatement(invoice, plays) {
 }
 
 // 값이 변경되지 않는 변수는 매개 변수로 전달
-function amountFor(perf, play) {
-    let thisAmount = 0;
+function amountFor(aPerformance, play) {
+    // let thisAmount > let result
+    let result = 0;
     switch (play.type) {
         case "tragedy": // 비극
-            thisAmount = 40000;
-            if (perf.audience > 30) {
-                thisAmount += 1000 * (perf.audience - 30);
+            result = 40000;
+            if (aPerformance.audience > 30) {
+                result += 1000 * (aPerformance.audience - 30);
             }
             break;
 
         case "comedy": // 희극
-            thisAmount = 30000;
-            if (perf.audience > 20) {
-                thisAmount += 10000 + 500 * (perf.audience - 20);
+            result = 30000;
+            if (aPerformance.audience > 20) {
+                result += 10000 + 500 * (aPerformance.audience - 20);
             }
-            thisAmount  += 300 * perf.audience;
+            result  += 300 * aPerformance.audience;
             break;
 
         default:
@@ -55,5 +56,5 @@ function amountFor(perf, play) {
     }
 
     // 함수 안에서 값이 바뀌는 변수 반환
-    return thisAmount;
+    return result;
 }
