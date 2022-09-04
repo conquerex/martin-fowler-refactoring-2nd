@@ -1,8 +1,23 @@
 export {myStatement}
 
 function myStatement(invoice, plays) {
-    let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-    for (let perf of invoice.performances) {
+    const statementData = {};
+    statementData.customer = invoice.customer;
+    statementData.performances = invoice.performances.map(enrichPerformance);
+
+    // 본문 전체를 별도 함수로 추출
+    return renderPlainText(statementData, plays);
+
+    function enrichPerformance(aPerformance) {
+        const result = Object.assign({}, aPerformance); // 얕은 복사 수행
+        return result;
+    }
+}
+
+function renderPlainText(data, plays) {
+    // 고객명을 data에서 얻어오도록 한다
+    let result = `청구 내역 (고객명: ${data.customer})\n`;
+    for (let perf of data.performances) {
         // 청구 내역을 출력
         result += `  ${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`;
     }
@@ -18,7 +33,7 @@ function myStatement(invoice, plays) {
      */
     function totalAmount() {
         let result = 0;
-        for (let perf of invoice.performances) {
+        for (let perf of data.performances) {
             result += amountFor(perf);
         }
         return result;
@@ -26,7 +41,7 @@ function myStatement(invoice, plays) {
 
     function totalVolumeCredits() {
         let result = 0;
-        for (let perf of invoice.performances) {
+        for (let perf of data.performances) {
             result += volumeCreditsFor(perf);
         }
         return result;
