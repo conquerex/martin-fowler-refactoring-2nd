@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import {statement} from '../../src/chp1/statement.js'
-import {myStatement} from '../../src/chp1/originStatement.js'
+import {myStatement} from '../../src/chp1/sampleStatement.js'
 import {htmlStatement} from "../../src/chp1/statement";
 
 describe('statement', () => {
