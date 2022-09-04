@@ -4,23 +4,17 @@ function myStatement(invoice, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-    // Intl.NumberFormat : 숫자 서식을 지원하는 객체
-    const format = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2
-    }).format;
 
     for (let perf of invoice.performances) {
         // 새로 추출한 함수를 이용해 값을 누적
         volumeCredits += volumeCreditsFor(perf);
 
         // 청구 내역을 출력
-        result += `  ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n`;
+        result += `  ${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`;
         totalAmount += amountFor(perf);
     }
 
-    result += `총액: ${format(totalAmount / 100)}\n`;
+    result += `총액: ${usd(totalAmount)}\n`;
     result += `적립 포인트: ${volumeCredits}점\n`;
 
     return result;
@@ -29,13 +23,17 @@ function myStatement(invoice, plays) {
      * 아래는 중첩함수
      */
 
+    function usd(aNumber) {
+        return new Intl.NumberFormat("en-US", {style : "currency", currency: "USD", minimumFractionDigits: 2}).format(aNumber / 100); // 단위 변환도 이쪽으로 옮김
+    }
+
     // 포인트 적립
-    function volumeCreditsFor(perf) {
+    function volumeCreditsFor(aPerformance) {
         let volumeCredits = 0;
-        volumeCredits += Math.max(perf.audience - 30, 0);
+        volumeCredits += Math.max(aPerformance.audience - 30, 0);
         // 희극 관객 5명마다 추가 포인트를 제공
-        if ('comedy' === playFor(perf).type) {
-            volumeCredits += Math.floor(perf.audience / 5);
+        if ('comedy' === playFor(aPerformance).type) {
+            volumeCredits += Math.floor(aPerformance.audience / 5);
         }
         return volumeCredits;
     }
