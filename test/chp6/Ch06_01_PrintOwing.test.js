@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import {expect} from 'chai';
 import {printOwing} from '../../src/chp6/PrintOwing'
 
 let Clock = {
@@ -19,7 +19,7 @@ let Clock = {
 
 class Console {
     constructor() {
-      this._content = "";
+        this._content = "";
     }
 
     log(content) {
@@ -56,7 +56,6 @@ describe('PrintOwing', () => {
         expect(console.content).to.equal(expected);
 
     });
-
 
 
 });
